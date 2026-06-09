@@ -1,0 +1,278 @@
+/* ===========================================================
+   Zipline Jobs — shared design system
+   Stripe-inspired, light theme, Pine green brand
+   =========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Brand greens */
+  --pine:        #0B5D3B;
+  --pine-dark:   #084227;
+  --pine-darker: #06311D;
+  --pine-mid:    #137A4D;
+  --mint:        #3FCB82;
+  --mint-bright: #5BE59B;
+  --pine-tint:   #E9F4EE;
+  --pine-tint-2: #F3F9F5;
+
+  /* Ink + neutrals (Stripe-like navy text) */
+  --ink:         #0A2540;
+  --ink-soft:    #1A3A5C;
+  --slate:       #3C5573;
+  --slate-2:     #5A7187;
+  --slate-3:     #8095A8;
+  --line:        #E6EBF1;
+  --line-soft:   #EEF2F6;
+
+  /* Surfaces */
+  --bg:          #FFFFFF;
+  --bg-soft:     #F6F9FC;
+  --bg-soft-2:   #FBFDFE;
+
+  /* Radii */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+  --r-pill: 999px;
+
+  /* Shadows */
+  --sh-xs: 0 1px 2px rgba(10,37,64,0.06);
+  --sh-sm: 0 2px 5px rgba(10,37,64,0.06), 0 1px 2px rgba(10,37,64,0.04);
+  --sh-md: 0 4px 14px rgba(10,37,64,0.08), 0 1px 3px rgba(10,37,64,0.05);
+  --sh-lg: 0 18px 50px -12px rgba(10,37,64,0.18), 0 6px 18px -8px rgba(10,37,64,0.12);
+  --sh-green: 0 12px 30px -8px rgba(11,93,59,0.40);
+
+  --maxw: 1180px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pine);
+}
+.eyebrow::before {
+  content: "";
+  width: 16px; height: 1.5px;
+  background: var(--pine);
+  display: inline-block;
+}
+
+.section { padding: 96px 0; }
+.section-tight { padding: 64px 0; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 11px 20px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease), color .18s;
+  white-space: nowrap;
+  line-height: 1;
+}
+.btn-primary {
+  background: var(--pine);
+  color: #fff;
+  box-shadow: var(--sh-green);
+}
+.btn-primary:hover { background: var(--pine-dark); transform: translateY(-1px); box-shadow: 0 16px 36px -8px rgba(11,93,59,0.46); }
+.btn-ghost {
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--line);
+  box-shadow: var(--sh-xs);
+}
+.btn-ghost:hover { border-color: #cfd9e4; transform: translateY(-1px); box-shadow: var(--sh-sm); }
+.btn-green-soft {
+  background: var(--pine-tint);
+  color: var(--pine);
+}
+.btn-green-soft:hover { background: #ddeee4; }
+.btn-lg { padding: 14px 26px; font-size: 16px; }
+.btn-arrow svg { transition: transform .2s var(--ease); }
+.btn-arrow:hover svg { transform: translateX(3px); }
+
+/* ---------- Nav ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.nav-inner {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-left: 12px;
+}
+.nav-links a {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--slate);
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a.active { color: var(--pine); }
+.nav-cta { display: flex; align-items: center; gap: 12px; }
+.nav-left { display: flex; align-items: center; gap: 6px; }
+
+/* ---------- Logo ---------- */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.logo .mark {
+  width: 34px; height: 34px;
+  flex: none;
+  border-radius: 9px;
+  background: linear-gradient(150deg, var(--pine-mid), var(--pine-darker));
+  display: grid;
+  place-items: center;
+  box-shadow: var(--sh-sm);
+}
+.logo .word b { font-weight: 600; }
+.logo .word span { color: var(--pine); font-weight: 600; }
+
+/* ---------- Footer ---------- */
+.footer {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+  padding: 64px 0 40px;
+  color: var(--slate);
+  font-size: 14.5px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 40px;
+}
+.footer h5 {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--slate-3);
+  margin: 0 0 16px;
+  font-weight: 600;
+  font-family: 'Geist Mono', monospace;
+}
+.footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+.footer ul a { color: var(--slate); transition: color .15s; }
+.footer ul a:hover { color: var(--pine); }
+.footer-bottom {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13.5px;
+  color: var(--slate-3);
+}
+.footer-blurb { max-width: 300px; margin: 16px 0 0; color: var(--slate-2); line-height: 1.6; }
+
+/* ---------- Pills / chips ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  background: var(--pine-tint);
+  color: var(--pine);
+}
+
+/* ---------- Monogram avatar ---------- */
+.mono {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  color: #fff;
+  flex: none;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Utility ---------- */
+.muted { color: var(--slate-2); }
+.center { text-align: center; }
+.grad-text {
+  background: linear-gradient(110deg, var(--pine-mid) 10%, var(--mint) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .section { padding: 64px 0; }
+}

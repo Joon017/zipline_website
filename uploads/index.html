@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zipline Jobs — Jobs, straight from the source. Join the waitlist.</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ---------------- Waitlist landing ---------------- */
+body { background: #fff; }
+
+.lp-nav-inner { height: 76px; }
+.lp-nav .nav-cta a.peek {
+  font-size: 14px; font-weight: 500; color: var(--slate);
+  display: inline-flex; align-items: center; gap: 6px; transition: color .15s, gap .15s;
+}
+.lp-nav .nav-cta a.peek:hover { color: var(--pine); gap: 9px; }
+
+/* HERO */
+.lp-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 56px 0 84px;
+}
+.lp-hero::before {
+  content: "";
+  position: absolute;
+  top: -240px; right: -180px;
+  width: 900px; height: 900px;
+  background: radial-gradient(closest-side, rgba(63,203,130,0.20), rgba(63,203,130,0.04) 58%, transparent 72%);
+  pointer-events: none; z-index: 0;
+}
+.lp-grid {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 1.04fr 1.04fr;
+  gap: 40px;
+  align-items: center;
+  min-height: 540px;
+}
+
+.badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+  color: var(--pine-dark);
+  background: var(--pine-tint);
+  border: 1px solid #cfe7d9;
+  padding: 7px 14px 7px 12px;
+  border-radius: var(--r-pill);
+}
+.badge .live { position: relative; width: 8px; height: 8px; }
+.badge .live::before, .badge .live::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--mint);
+}
+.badge .live::after { animation: ping 1.8s var(--ease) infinite; }
+@keyframes ping { 0% { transform: scale(1); opacity: .7; } 80%, 100% { transform: scale(2.6); opacity: 0; } }
+
+.lp-hero h1 {
+  font-size: 62px;
+  letter-spacing: -0.038em;
+  line-height: 1.0;
+  margin: 24px 0 0;
+}
+.lp-hero .sub {
+  font-size: 20px;
+  color: var(--slate);
+  margin: 24px 0 0;
+  max-width: 488px;
+  line-height: 1.55;
+}
+
+.wl {
+  margin-top: 34px;
+  max-width: 452px;
+}
+.wl-form {
+  display: flex; gap: 8px;
+  background: #fff; padding: 7px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-md);
+  transition: box-shadow .2s, border-color .2s;
+}
+.wl-form:focus-within { border-color: var(--mint); box-shadow: 0 0 0 4px rgba(63,203,130,0.16), var(--sh-md); }
+.wl-form input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font: inherit; font-size: 16px; color: var(--ink);
+  padding: 0 8px 0 16px;
+}
+.wl-form input::placeholder { color: var(--slate-3); }
+.wl-form .btn { padding: 13px 22px; }
+
+/* combined card form (email + companies together) */
+.wl-card { text-align: left; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-md); padding: 22px; display: grid; gap: 18px; }
+.wl-field { display: grid; gap: 8px; }
+.wl-field > label { font-size: 13px; font-weight: 600; color: var(--ink); }
+.wl-field .opt { color: var(--slate-3); font-weight: 400; }
+.wl-email { font: inherit; font-size: 15.5px; color: var(--ink); background: var(--bg-soft-2); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 12px 14px; outline: none; width: 100%; transition: border-color .15s, box-shadow .15s, background .15s; }
+.wl-email:focus { border-color: var(--mint); background: #fff; box-shadow: 0 0 0 3px rgba(63,203,130,.15); }
+.wl-email::placeholder { color: var(--slate-3); }
+.wl-submit { width: 100%; }
+
+.proof { margin-top: 20px; display: flex; align-items: center; gap: 13px; }
+.avatars { display: flex; }
+.avatars .av {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid #fff; margin-left: -9px;
+  display: grid; place-items: center;
+  color: #fff; font-size: 12px; font-weight: 600;
+  box-shadow: var(--sh-xs);
+}
+.avatars .av:first-child { margin-left: 0; }
+.proof-text { font-size: 14px; color: var(--slate-2); }
+.proof-text b { color: var(--ink); font-weight: 600; }
+
+/* success */
+.wl.done .wl-card, .wl.done .wl-form, .wl.done .proof, .wl.done .suggest, .wl.done .note { display: none; }
+.wl-ok { display: none; }
+.wl.done .wl-ok { display: block; }
+.wl-ok {
+  background: linear-gradient(180deg, #fff, var(--pine-tint-2));
+  border: 1px solid #cfe7d9;
+  border-radius: var(--r-lg);
+  padding: 24px 26px;
+  box-shadow: var(--sh-md);
+}
+.wl-ok-top { display: flex; align-items: center; gap: 13px; }
+.wl-ok-top .ic { width: 40px; height: 40px; border-radius: 12px; background: var(--pine); display: grid; place-items: center; box-shadow: var(--sh-green); flex: none; }
+.wl-ok-top h3 { font-size: 18px; }
+.wl-ok p { font-size: 14.5px; color: var(--slate); margin-top: 14px; line-height: 1.55; }
+.wl-pos { margin-top: 16px; display: flex; align-items: baseline; gap: 10px; padding-top: 16px; border-top: 1px solid #d8ebe0; }
+.wl-pos b { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; color: var(--pine); }
+.wl-pos span { font-size: 13.5px; color: var(--slate-2); }
+
+.note { margin-top: 16px; font-size: 13px; color: var(--slate-3); display: flex; align-items: center; gap: 8px; }
+.note svg { flex: none; }
+
+/* suggest companies */
+.suggest { margin-top: 16px; }
+.suggest-toggle {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: none; border: none; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 500; color: var(--pine);
+  padding: 4px 0;
+}
+.suggest-toggle .st-ic { width: 20px; height: 20px; border-radius: 6px; background: var(--pine-tint); color: var(--pine); display: grid; place-items: center; font-size: 15px; line-height: 1; }
+.suggest-toggle .st-chev { transition: transform .2s var(--ease); color: var(--slate-2); }
+.suggest-toggle[aria-expanded="true"] .st-chev { transform: rotate(180deg); }
+.suggest-body { margin-top: 14px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px; }
+.suggest-hint { font-size: 13px; color: var(--slate-2); margin: 0 0 12px; line-height: 1.5; }
+.suggest-rows { display: grid; gap: 10px; }
+.srow { display: grid; grid-template-columns: 1fr 1.25fr auto; gap: 8px; align-items: center; }
+.srow input { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg-soft-2); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 9px 12px; outline: none; width: 100%; transition: border-color .15s, box-shadow .15s; }
+.srow input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(63,203,130,.14); }
+.srow input::placeholder { color: var(--slate-3); }
+.url-wrap { position: relative; display: flex; align-items: center; }
+.url-wrap .url-pfx { position: absolute; left: 12px; font-size: 13.5px; color: var(--slate-3); pointer-events: none; }
+.url-wrap .inp-url { padding-left: 58px; }
+.srow-x { width: 30px; height: 34px; border: none; background: none; color: var(--slate-3); cursor: pointer; border-radius: 7px; font-size: 13px; flex: none; transition: color .15s, background .15s; }
+.srow-x:hover { color: #C5453B; background: #FBEBEA; }
+.srow.solo .srow-x { visibility: hidden; }
+.add-co { margin-top: 12px; background: none; border: none; cursor: pointer; font: inherit; font-size: 13.5px; font-weight: 500; color: var(--pine); display: inline-flex; align-items: center; gap: 6px; padding: 2px 0; }
+.add-co:hover { text-decoration: underline; }
+.wl-cos { margin-top: 14px; padding-top: 16px; border-top: 1px solid #d8ebe0; }
+.wl-cos .cos-label { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 9px; display: block; }
+.wl-cos .cos-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.wl-cos .cochip { display: inline-flex; align-items: center; gap: 6px; background: var(--pine-tint); color: var(--pine-dark); font-size: 12.5px; font-weight: 500; padding: 4px 11px; border-radius: 999px; }
+.wl-cos .cochip .cd { width: 6px; height: 6px; border-radius: 50%; background: var(--mint); flex: none; }
+/* dark-band variants */
+.cta-inner .suggest-toggle { color: #fff; }
+.cta-inner .suggest-toggle .st-ic { background: rgba(255,255,255,0.16); color: #fff; }
+.cta-inner .suggest-toggle .st-chev { color: rgba(255,255,255,0.65); }
+.cta-inner .add-co { color: var(--pine); }
+.cta-inner .wl-cos { border-top-color: rgba(255,255,255,0.16); }
+.cta-inner .wl-cos .cos-label { color: #fff; }
+@media (max-width: 560px) {
+  .srow { grid-template-columns: 1fr auto; }
+  .srow .inp-co { grid-column: 1 / -1; }
+}
+
+/* viz — reuse from full site */
+.viz { position: relative; width: 100%; }
+.viz svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+/* logo marquee */
+.marq {
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg-soft-2);
+  padding: 26px 0;
+  overflow: hidden;
+}
+.marq-label { text-align: center; font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate-3); font-family: 'Geist Mono', monospace; margin-bottom: 20px; }
+.marq-track { display: flex; align-items: center; gap: 40px; width: max-content; animation: scroll 32s linear infinite; }
+.marq:hover .marq-track { animation-play-state: paused; }
+@keyframes scroll { to { transform: translateX(-50%); } }
+.marq-item { display: flex; align-items: center; gap: 11px; color: var(--slate); font-weight: 600; font-size: 16px; white-space: nowrap; }
+.marq-item .brand { width: 36px; height: 36px; border-radius: 9px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; box-shadow: var(--sh-xs); flex: none; }
+.marq-item .brand img { width: 21px; height: 21px; display: block; }
+
+/* compact sections */
+.lp-sec { padding: 84px 0; }
+.lp-sec-head { max-width: 580px; margin: 0 auto; text-align: center; }
+.lp-sec-head h2 { font-size: 38px; letter-spacing: -0.03em; margin-top: 14px; }
+.lp-sec-head .eyebrow { justify-content: center; }
+.lp-sec-head p { font-size: 18px; color: var(--slate); margin-top: 14px; line-height: 1.55; }
+
+.mini3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 54px; }
+.mini {
+  text-align: center;
+  padding: 8px 14px;
+}
+.mini .ic {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--pine); display: grid; place-items: center;
+  margin: 0 auto 18px; box-shadow: var(--sh-green);
+}
+.mini h3 { font-size: 19px; margin-bottom: 9px; }
+.mini p { font-size: 15px; color: var(--slate); line-height: 1.58; }
+
+/* how steps inline */
+.lp-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 54px; counter-reset: s; }
+.lp-step { position: relative; padding: 28px 26px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--sh-sm); }
+.lp-step .num { font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 500; color: var(--pine); background: var(--pine-tint); width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; margin-bottom: 16px; }
+.lp-step h3 { font-size: 18px; margin-bottom: 8px; }
+.lp-step p { font-size: 14.5px; color: var(--slate); line-height: 1.55; }
+
+/* final cta band */
+.cta-band {
+  background: linear-gradient(135deg, var(--pine-darker), var(--pine) 52%, var(--pine-mid));
+  position: relative; overflow: hidden;
+}
+.cta-band::after { content:""; position:absolute; right:-80px; top:-100px; width:460px; height:460px; background: radial-gradient(closest-side, rgba(91,229,155,0.4), transparent 70%); }
+.cta-inner { position: relative; z-index: 1; text-align: center; padding: 84px 0; }
+.cta-inner .eyebrow { color: var(--mint-bright); justify-content: center; }
+.cta-inner .eyebrow::before { background: var(--mint-bright); }
+.cta-inner h2 { color: #fff; font-size: 46px; letter-spacing: -0.03em; margin-top: 16px; }
+.cta-inner p { color: rgba(255,255,255,0.82); font-size: 18px; margin-top: 14px; }
+.cta-inner .wl { margin: 32px auto 0; }
+.cta-inner .wl-form { box-shadow: 0 18px 50px -12px rgba(0,0,0,0.4); border-color: transparent; }
+.cta-inner .note { color: rgba(255,255,255,0.62); justify-content: center; }
+.cta-inner .wl-ok { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); backdrop-filter: blur(6px); }
+.cta-inner .wl-ok-top h3 { color: #fff; }
+.cta-inner .wl-ok p { color: rgba(255,255,255,0.8); }
+.cta-inner .wl-pos { border-top-color: rgba(255,255,255,0.16); }
+.cta-inner .wl-pos b { color: var(--mint-bright); }
+.cta-inner .wl-pos span { color: rgba(255,255,255,0.7); }
+
+/* slim footer */
+.lp-footer { padding: 40px 0; border-top: 1px solid var(--line); background: #fff; }
+.lp-footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.lp-footer .links { display: flex; gap: 26px; }
+.lp-footer .links a { font-size: 14px; color: var(--slate-2); transition: color .15s; }
+.lp-footer .links a:hover { color: var(--pine); }
+.lp-footer .copy { font-size: 13.5px; color: var(--slate-3); }
+
+@media (max-width: 960px) {
+  .lp-grid { grid-template-columns: 1fr; gap: 12px; min-height: 0; }
+  .viz { max-width: 540px; margin: 8px auto 0; }
+  .lp-hero h1 { font-size: 46px; }
+  .mini3, .lp-steps { grid-template-columns: 1fr; }
+  .cta-inner h2 { font-size: 34px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zip-card-grp { display: none; }
+  .marq-track { animation: none; }
+}
+/* welcoming marquee chip */
+.marq-more { color: var(--pine); font-weight: 600; font-size: 14px; background: var(--pine-tint); border: 1px dashed #bfe3cf; padding: 8px 16px; border-radius: 999px; white-space: nowrap; }
+
+/* hiring platforms */
+.providers { padding: 32px 0 8px; }
+.providers-label { text-align: center; font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate-3); font-family: 'Geist Mono', monospace; margin: 0 0 22px; }
+.providers-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 780px; margin: 0 auto; }
+.prov { display: inline-flex; align-items: center; gap: 9px; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 18px; font-weight: 600; font-size: 15px; color: var(--ink); box-shadow: var(--sh-xs); }
+.prov-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.providers-note { text-align: center; font-size: 14px; color: var(--slate-2); margin: 24px auto 0; max-width: 540px; line-height: 1.55; }
+
+/* mission */
+.mission { padding: 88px 0; }
+.mission-inner { max-width: 780px; margin: 0 auto; text-align: center; }
+.mission-inner .eyebrow { justify-content: center; }
+.mission h2 { font-size: 41px; letter-spacing: -0.03em; margin-top: 16px; line-height: 1.08; }
+.mission p { font-size: 18.5px; color: var(--slate); margin-top: 18px; line-height: 1.6; }
+.mission-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 42px; text-align: left; }
+.mission-stats > div { padding: 18px 20px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--r-md); }
+.mission-stats b { display: block; font-size: 16px; color: var(--ink); }
+.mission-stats span { display: block; font-size: 13.5px; color: var(--slate-2); margin-top: 4px; }
+
+/* compare flow */
+.compare { display: grid; gap: 16px; margin-top: 44px; }
+.lane { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px 24px; background: #fff; }
+.lane-old { background: var(--bg-soft); }
+.lane-new { background: linear-gradient(180deg, #fff, var(--pine-tint-2)); border-color: #cfe7d9; }
+.lane-head { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.lane-tag { font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+.tag-bad { background: #FBEDEA; color: #C5453B; }
+.tag-good { background: var(--pine-tint); color: var(--pine); }
+.flow { display: flex; align-items: stretch; }
+.fnode { flex: 1 1 0; min-width: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 10px; text-align: center; box-shadow: var(--sh-xs); display: flex; flex-direction: column; justify-content: center; }
+.fnode b { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+.fnode small { font-size: 12px; color: var(--slate-2); margin-top: 4px; }
+.lane-old .fnode b { color: var(--slate); }
+.brandnode { background: var(--pine); border-color: var(--pine); }
+.brandnode b { color: #fff; }
+.brandnode small { color: rgba(255,255,255,.82); }
+.fconn { flex: 0 0 96px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 0 4px; }
+.fconn .clabel { font-size: 11px; color: var(--slate-3); text-align: center; line-height: 1.2; }
+.fconn .carrow { color: #c4cdd7; }
+.fconn.good .clabel { color: var(--pine); }
+.fconn.good .carrow { color: var(--mint); }
+
+/* job alerts */
+.alerts-grid { display: grid; grid-template-columns: 1.02fr 1fr; gap: 48px; align-items: center; }
+.alerts-copy h2 { font-size: 38px; letter-spacing: -0.03em; margin-top: 14px; }
+.alerts-sub { font-size: 18px; color: var(--slate); margin-top: 16px; line-height: 1.55; }
+.alerts-list { list-style: none; margin: 24px 0 28px; padding: 0; display: grid; gap: 12px; }
+.alerts-list li { display: flex; align-items: center; gap: 11px; font-size: 15.5px; color: var(--ink); }
+.alerts-list svg { flex: none; }
+.alerts-visual { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 8px 0; }
+.notif { display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px 18px; box-shadow: var(--sh-md); }
+.notif:nth-child(1) { animation: floaty 5s ease-in-out infinite; }
+.notif:nth-child(2) { animation: floaty 5s ease-in-out infinite .9s; }
+.notif:nth-child(3) { animation: floaty 5s ease-in-out infinite 1.8s; }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.notif-logo { width: 42px; height: 42px; border-radius: 11px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; flex: none; }
+.notif-logo img { width: 22px; height: 22px; }
+.notif-body { flex: 1; min-width: 0; }
+.notif-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.notif-top b { font-size: 13px; color: var(--slate); font-weight: 600; }
+.notif-time { font-size: 12px; color: var(--slate-3); }
+.notif-role { font-size: 15.5px; font-weight: 600; color: var(--ink); margin-top: 3px; }
+.notif-meta { font-size: 13px; color: var(--slate-2); margin-top: 2px; }
+.notif-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px rgba(63,203,130,.16); flex: none; }
+
+.wl-hint { font-size: 12.5px; color: var(--slate-2); margin: -2px 0 2px; line-height: 1.45; }
+.proof-line { margin-top: 18px; font-size: 13.5px; color: var(--slate-2); }
+
+/* hiring insights */
+.insights-grid { display: grid; grid-template-columns: 1fr 1.04fr; gap: 48px; align-items: center; }
+.insight-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-lg); padding: 24px; width: 100%; max-width: 440px; margin: 0 auto; }
+.insight-head { display: flex; align-items: center; gap: 13px; }
+.insight-logo { width: 40px; height: 40px; border-radius: 10px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; flex: none; }
+.insight-logo img { width: 21px; height: 21px; }
+.insight-head .ih-name b { font-size: 16px; display: block; color: var(--ink); }
+.insight-head .ih-name span { font-size: 12.5px; color: var(--slate-2); }
+.insight-trend { margin-left: auto; font-size: 12.5px; font-weight: 600; color: var(--pine); background: var(--pine-tint); padding: 5px 11px; border-radius: 999px; white-space: nowrap; }
+.insight-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0 18px; }
+.insight-metrics > div { background: var(--bg-soft); border: 1px solid var(--line-soft); border-radius: var(--r-sm); padding: 12px 8px; text-align: center; }
+.insight-metrics b { font-size: 21px; letter-spacing: -0.02em; color: var(--ink); }
+.insight-metrics span { display: block; font-size: 11px; color: var(--slate-2); margin-top: 3px; }
+.insight-chart .bars { display: flex; align-items: flex-end; gap: 7px; height: 78px; }
+.insight-chart .bars span { flex: 1; background: linear-gradient(180deg, var(--mint), var(--pine-mid)); border-radius: 4px 4px 0 0; min-height: 6px; }
+.insight-chart .chart-x { font-size: 11px; color: var(--slate-3); margin-top: 9px; }
+.insight-teams { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+.insight-teams .t-label { font-size: 12px; color: var(--slate-2); display: block; margin-bottom: 10px; }
+.t-chips { display: flex; gap: 7px; flex-wrap: wrap; }
+.t-chips span { font-size: 12.5px; font-weight: 500; color: var(--ink); background: var(--bg-soft); border: 1px solid var(--line); padding: 5px 11px; border-radius: 999px; }
+@media (max-width: 860px) { .insights-grid { grid-template-columns: 1fr; gap: 30px; } }
+
+@media (max-width: 860px) {
+  .mission-stats { grid-template-columns: 1fr; }
+  .alerts-grid { grid-template-columns: 1fr; gap: 30px; }
+  .mission h2, .alerts-copy h2 { font-size: 30px; }
+}
+@media (max-width: 720px) {
+  .flow { flex-direction: column; }
+  .fconn { flex: 0 0 auto; padding: 8px 0; }
+  .fconn .carrow { transform: rotate(90deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notif { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV (minimal) ===== -->
+<nav class="nav lp-nav">
+  <div class="wrap nav-inner lp-nav-inner">
+    <a href="index.html" class="logo">
+      <span class="mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6.5 6 H17.5" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/><path d="M17.2 6.5 L6.8 17.5" stroke="#5BE59B" stroke-width="2.1" stroke-linecap="round"/><path d="M6.5 18 H17.5" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/><circle cx="6.5" cy="6" r="2.3" fill="#fff"/><circle cx="17.5" cy="6" r="2.3" fill="#fff"/><circle cx="6.5" cy="18" r="2.3" fill="#fff"/><circle cx="17.5" cy="18" r="2.3" fill="#fff"/><circle cx="12" cy="12" r="2.3" fill="#5BE59B"/>
+        </svg>
+      </span>
+      <span class="word"><b>Zipline</b>&nbsp;<span>Jobs</span></span>
+    </a>
+    <div class="nav-cta">
+      <a href="directory.html" class="peek">Browse the directory <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="#join" class="btn btn-primary">Join the waitlist</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="lp-hero" id="join">
+  <div class="wrap lp-grid">
+    <div class="lp-copy">
+      <span class="badge"><span class="live"></span> Launching early 2026 · Private beta open</span>
+      <h1>Find jobs directly<br>from the <span class="grad-text">companies hiring.</span></h1>
+      <p class="sub">Zipline aggregates open roles directly from company career pages — across companies of every size and sector. You always see the original posting, sourced from the company itself.</p>
+
+      <div class="wl" id="wl1">
+        <form class="wl-card" id="wl1-form">
+          <div class="wl-field">
+            <label for="wl1-email">Your email</label>
+            <input class="wl-email" type="email" id="wl1-email" placeholder="you@work.com" required aria-label="Email address">
+          </div>
+          <div class="wl-field">
+            <label>Companies you’d like to follow <span class="opt">(optional)</span></label>
+            <p class="wl-hint">We’ll track them and email you the moment they post a new role.</p>
+            <div class="suggest-rows">
+              <div class="srow solo">
+                <input class="inp-co" type="text" placeholder="Company name" aria-label="Company name">
+                <div class="url-wrap"><span class="url-pfx">https://</span><input class="inp-url" type="text" placeholder="careers page link" aria-label="Career page URL"></div>
+                <button type="button" class="srow-x" aria-label="Remove">✕</button>
+              </div>
+            </div>
+            <button type="button" class="add-co">+ Add another company</button>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg wl-submit">Join the waitlist</button>
+        </form>
+        <p class="proof-line">Currently tracking 180+ companies across 20+ sectors, refreshed daily.</p>
+
+        <div class="wl-ok">
+          <div class="wl-ok-top">
+            <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l3.5 3.5L19 7" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <h3>You're on the list</h3>
+          </div>
+          <p>We'll email <b class="wl-email-shown">you</b> when early access opens.</p>
+          <div class="wl-cos" hidden></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- node network visualization -->
+    <div class="viz" aria-hidden="true">
+      <svg viewBox="0 0 640 580" role="img">
+        <defs>
+          <linearGradient id="cable" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#0B5D3B" stop-opacity="0.55"/>
+            <stop offset="1" stop-color="#3FCB82" stop-opacity="0.35"/>
+          </linearGradient>
+          <linearGradient id="hubg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#137A4D"/><stop offset="1" stop-color="#06311D"/>
+          </linearGradient>
+          <radialGradient id="hubGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#5BE59B" stop-opacity="0.55"/><stop offset="1" stop-color="#5BE59B" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="cardShadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0A2540" flood-opacity="0.16"/></filter>
+          <filter id="nodeShadow" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0A2540" flood-opacity="0.14"/></filter>
+        </defs>
+
+        <g fill="none" stroke="url(#cable)" stroke-width="2">
+          <path id="c1" d="M150,300 C 200,210 240,120 320,84"/>
+          <path id="c2" d="M150,300 C 300,250 400,130 548,92"/>
+          <path id="c3" d="M150,300 C 330,288 440,215 596,206"/>
+          <path id="c4" d="M150,300 C 320,322 410,330 566,344"/>
+          <path id="c5" d="M150,300 C 300,360 360,430 486,460"/>
+          <path id="c6" d="M150,300 C 210,392 270,492 356,512"/>
+        </g>
+
+        <circle cx="150" cy="300" r="92" fill="url(#hubGlow)"><animate attributeName="r" values="80;96;80" dur="3.4s" repeatCount="indefinite"/></circle>
+
+        <g filter="url(#nodeShadow)"><circle cx="320" cy="84" r="26" fill="#fff" stroke="#F24E1E" stroke-width="2"/><text x="320" y="92" text-anchor="middle" font-family="Geist, sans-serif" font-size="20" font-weight="600" fill="#F24E1E">F</text></g>
+        <text x="320" y="40" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="500" fill="#5A7187">Figma</text>
+        <g filter="url(#nodeShadow)"><circle cx="548" cy="92" r="26" fill="#fff" stroke="#635BFF" stroke-width="2"/><text x="548" y="100" text-anchor="middle" font-family="Geist, sans-serif" font-size="20" font-weight="600" fill="#635BFF">S</text></g>
+        <text x="548" y="48" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="500" fill="#5A7187">Stripe</text>
+        <g filter="url(#nodeShadow)"><circle cx="596" cy="206" r="26" fill="#fff" stroke="#5E6AD2" stroke-width="2"/><text x="596" y="214" text-anchor="middle" font-family="Geist, sans-serif" font-size="20" font-weight="600" fill="#5E6AD2">L</text></g>
+        <text x="596" y="256" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="500" fill="#5A7187">Linear</text>
+        <g filter="url(#nodeShadow)"><circle cx="566" cy="344" r="26" fill="#fff" stroke="#FF5A5F" stroke-width="2"/><text x="566" y="352" text-anchor="middle" font-family="Geist, sans-serif" font-size="20" font-weight="600" fill="#FF5A5F">A</text></g>
+        <text x="566" y="394" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="500" fill="#5A7187">Airbnb</text>
+        <g filter="url(#nodeShadow)"><circle cx="486" cy="460" r="26" fill="#fff" stroke="#1A1A1A" stroke-width="2"/><text x="486" y="468" text-anchor="middle" font-family="Geist, sans-serif" font-size="20" font-weight="600" fill="#1A1A1A">N</text></g>
+        <text x="486" y="510" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="500" fill="#5A7187">Notion</text>
+        <g filter="url(#nodeShadow)"><circle cx="356" cy="512" r="26" fill="#fff" stroke="#111" stroke-width="2"/><text x="356" y="520" text-anchor="middle" font-family="Geist, sans-serif" font-size="20" font-weight="600" fill="#111">V</text></g>
+        <text x="356" y="562" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="500" fill="#5A7187">Vercel</text>
+
+        <g class="zip-card-grp">
+          <g><rect x="-23" y="-9" width="46" height="18" rx="5" fill="#fff" filter="url(#cardShadow)"/><circle cx="-14" cy="0" r="4" fill="#F24E1E"/><rect x="-6" y="-3.5" width="24" height="2.6" rx="1.3" fill="#0A2540" opacity="0.5"/><rect x="-6" y="2" width="15" height="2.6" rx="1.3" fill="#0A2540" opacity="0.25"/><animateMotion dur="3.6s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#c1"/></animateMotion></g>
+          <g><rect x="-23" y="-9" width="46" height="18" rx="5" fill="#fff" filter="url(#cardShadow)"/><circle cx="-14" cy="0" r="4" fill="#635BFF"/><rect x="-6" y="-3.5" width="24" height="2.6" rx="1.3" fill="#0A2540" opacity="0.5"/><rect x="-6" y="2" width="15" height="2.6" rx="1.3" fill="#0A2540" opacity="0.25"/><animateMotion dur="4.2s" begin="0.8s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#c2"/></animateMotion></g>
+          <g><rect x="-23" y="-9" width="46" height="18" rx="5" fill="#fff" filter="url(#cardShadow)"/><circle cx="-14" cy="0" r="4" fill="#5E6AD2"/><rect x="-6" y="-3.5" width="24" height="2.6" rx="1.3" fill="#0A2540" opacity="0.5"/><rect x="-6" y="2" width="15" height="2.6" rx="1.3" fill="#0A2540" opacity="0.25"/><animateMotion dur="3.9s" begin="1.6s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#c3"/></animateMotion></g>
+          <g><rect x="-23" y="-9" width="46" height="18" rx="5" fill="#fff" filter="url(#cardShadow)"/><circle cx="-14" cy="0" r="4" fill="#FF5A5F"/><rect x="-6" y="-3.5" width="24" height="2.6" rx="1.3" fill="#0A2540" opacity="0.5"/><rect x="-6" y="2" width="15" height="2.6" rx="1.3" fill="#0A2540" opacity="0.25"/><animateMotion dur="4.4s" begin="0.4s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#c4"/></animateMotion></g>
+          <g><rect x="-23" y="-9" width="46" height="18" rx="5" fill="#fff" filter="url(#cardShadow)"/><circle cx="-14" cy="0" r="4" fill="#1A1A1A"/><rect x="-6" y="-3.5" width="24" height="2.6" rx="1.3" fill="#0A2540" opacity="0.5"/><rect x="-6" y="2" width="15" height="2.6" rx="1.3" fill="#0A2540" opacity="0.25"/><animateMotion dur="4.0s" begin="2.1s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#c5"/></animateMotion></g>
+          <g><rect x="-23" y="-9" width="46" height="18" rx="5" fill="#fff" filter="url(#cardShadow)"/><circle cx="-14" cy="0" r="4" fill="#111"/><rect x="-6" y="-3.5" width="24" height="2.6" rx="1.3" fill="#0A2540" opacity="0.5"/><rect x="-6" y="2" width="15" height="2.6" rx="1.3" fill="#0A2540" opacity="0.25"/><animateMotion dur="3.7s" begin="1.2s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#c6"/></animateMotion></g>
+        </g>
+
+        <g filter="url(#nodeShadow)">
+          <rect x="108" y="258" width="84" height="84" rx="22" fill="url(#hubg)"/>
+          <path d="M127 275 H173" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><path d="M172 276 L128 324" stroke="#5BE59B" stroke-width="3.4" stroke-linecap="round"/><path d="M127 325 H173" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><circle cx="127" cy="275" r="4.4" fill="#fff"/><circle cx="173" cy="275" r="4.4" fill="#fff"/><circle cx="127" cy="325" r="4.4" fill="#fff"/><circle cx="173" cy="325" r="4.4" fill="#fff"/><circle cx="150" cy="300" r="4.4" fill="#5BE59B"/>
+        </g>
+        <text x="150" y="372" text-anchor="middle" font-family="Geist, sans-serif" font-size="15" font-weight="600" fill="#0A2540">Zipline</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ===== LOGO MARQUEE ===== -->
+<section class="marq">
+  <div class="marq-label">Tracking roles at companies of every size</div>
+  <div class="marq-track">
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/stripe/635BFF" alt="Stripe" loading="lazy"></span>Stripe</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt="Figma" loading="lazy"></span>Figma</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/notion/000000" alt="Notion" loading="lazy"></span>Notion</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/linear/5E6AD2" alt="Linear" loading="lazy"></span>Linear</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/spotify/1DB954" alt="Spotify" loading="lazy"></span>Spotify</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/github/181717" alt="GitHub" loading="lazy"></span>GitHub</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/vercel/000000" alt="Vercel" loading="lazy"></span>Vercel</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/anthropic/D97757" alt="Anthropic" loading="lazy"></span>Anthropic</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/datadog/632CA6" alt="Datadog" loading="lazy"></span>Datadog</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/airbnb/FF5A5F" alt="Airbnb" loading="lazy"></span>Airbnb</div>
+    <div class="marq-item marq-more">+ new companies added weekly</div>
+    <!-- duplicate for seamless loop -->
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/stripe/635BFF" alt="Stripe" loading="lazy"></span>Stripe</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt="Figma" loading="lazy"></span>Figma</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/notion/000000" alt="Notion" loading="lazy"></span>Notion</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/linear/5E6AD2" alt="Linear" loading="lazy"></span>Linear</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/spotify/1DB954" alt="Spotify" loading="lazy"></span>Spotify</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/github/181717" alt="GitHub" loading="lazy"></span>GitHub</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/vercel/000000" alt="Vercel" loading="lazy"></span>Vercel</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/anthropic/D97757" alt="Anthropic" loading="lazy"></span>Anthropic</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/datadog/632CA6" alt="Datadog" loading="lazy"></span>Datadog</div>
+    <div class="marq-item"><span class="brand"><img src="https://cdn.simpleicons.org/airbnb/FF5A5F" alt="Airbnb" loading="lazy"></span>Airbnb</div>
+    <div class="marq-item marq-more">+ new companies added weekly</div>
+  </div>
+</section>
+
+<!-- ===== HIRING PLATFORMS ===== -->
+<section class="providers">
+  <div class="wrap">
+    <p class="providers-label">…and every hiring platform they post on</p>
+    <div class="providers-row">
+      <div class="prov"><span class="prov-dot" style="background:#1F9E6F"></span>Greenhouse</div>
+      <div class="prov"><span class="prov-dot" style="background:#5E54CF"></span>Lever</div>
+      <div class="prov"><span class="prov-dot" style="background:#4C49EC"></span>Ashby</div>
+      <div class="prov"><span class="prov-dot" style="background:#0875E1"></span>Workday</div>
+      <div class="prov"><span class="prov-dot" style="background:#1A8FE3"></span>Workable</div>
+      <div class="prov"><span class="prov-dot" style="background:#00B5AD"></span>SmartRecruiters</div>
+      <div class="prov"><span class="prov-dot" style="background:#6DB33F"></span>BambooHR</div>
+      <div class="prov"><span class="prov-dot" style="background:#4B3FE4"></span>Rippling</div>
+    </div>
+    <p class="providers-note">Custom careers page or applicant-tracking system — wherever a company posts a role, Zipline catches it.</p>
+  </div>
+</section>
+
+<!-- ===== MISSION ===== -->
+<section class="mission">
+  <div class="wrap mission-inner">
+    <span class="eyebrow">Our mission</span>
+    <h2>Build the largest directory of jobs, sourced <span class="grad-text">directly from the companies hiring.</span></h2>
+    <p>Not just the household names. Every startup, scale-up, studio, lab and enterprise with a careers page deserves to be found — and every job seeker deserves to see the real opening, first-hand.</p>
+    <div class="mission-stats">
+      <div><b>Every company</b><span>big or small, famous or not</span></div>
+      <div><b>Every platform</b><span>career pages &amp; every major ATS</span></div>
+      <div><b>One directory</b><span>fresh, searchable, from the source</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY THE SOURCE MATTERS ===== -->
+<section class="lp-sec" id="why">
+  <div class="wrap">
+    <div class="lp-sec-head">
+      <span class="eyebrow">Why the source matters</span>
+      <h2>The same job, two very different journeys.</h2>
+      <p>By the time a role reaches a job board, it's been copied, delayed, and sometimes already filled. Going straight to the source skips all of that.</p>
+    </div>
+
+    <div class="compare">
+      <div class="lane lane-old">
+        <div class="lane-head"><span class="lane-tag tag-bad">The usual way</span> Through job boards &amp; aggregators</div>
+        <div class="flow">
+          <div class="fnode"><b>Company</b><small>posts a role</small></div>
+          <div class="fconn"><span class="clabel">copied &amp; reposted</span><svg class="carrow" width="26" height="10" viewBox="0 0 26 10" fill="none"><path d="M1 5h21M18 1l5 4-5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="fnode"><b>Job boards</b><small>duplicated &amp; ranked</small></div>
+          <div class="fconn"><span class="clabel">days–weeks later</span><svg class="carrow" width="26" height="10" viewBox="0 0 26 10" fill="none"><path d="M1 5h21M18 1l5 4-5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="fnode"><b>You</b><small>stale · maybe expired</small></div>
+        </div>
+      </div>
+      <div class="lane lane-new">
+        <div class="lane-head"><span class="lane-tag tag-good">With Zipline</span> Straight from the source</div>
+        <div class="flow">
+          <div class="fnode"><b>Company</b><small>posts a role</small></div>
+          <div class="fconn good"><span class="clabel">same day</span><svg class="carrow" width="26" height="10" viewBox="0 0 26 10" fill="none"><path d="M1 5h21M18 1l5 4-5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="fnode brandnode"><b>Zipline</b><small>reads the career page</small></div>
+          <div class="fconn good"><span class="clabel">apply at the source</span><svg class="carrow" width="26" height="10" viewBox="0 0 26 10" fill="none"><path d="M1 5h21M18 1l5 4-5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="fnode"><b>You</b><small>real · current</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mini3" style="margin-top:44px;">
+      <div class="mini">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 12l2.5 2.5L16 9" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Straight from the source</h3>
+        <p>Every listing comes directly from the employer's own career page — the most trustworthy place a job can live.</p>
+      </div>
+      <div class="mini">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><path d="M21 4v5h-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Always fresh, never stale</h3>
+        <p>We re-check pages daily. When a role closes on the company site, it disappears here too — no dead links.</p>
+      </div>
+      <div class="mini">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#fff" stroke-width="1.8"/><path d="M16 16l5 5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><path d="M8 11l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>No reposts or ghost jobs</h3>
+        <p>No duplicate reposts, expired listings, or roles that were never real. Just the genuine openings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW (compact) ===== -->
+<section class="lp-sec" id="how" style="background:var(--bg-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="lp-sec-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From the career page to your search.</h2>
+    </div>
+    <div class="lp-steps">
+      <div class="lp-step"><div class="num">01</div><h3>We monitor career pages</h3><p>Our scrapers watch each company's official careers page around the clock — the same page you'd visit yourself.</p></div>
+      <div class="lp-step"><div class="num">02</div><h3>We aggregate &amp; normalize</h3><p>Every role is parsed into a clean, consistent format — title, team, location, and a link back to apply directly.</p></div>
+      <div class="lp-step"><div class="num">03</div><h3>You browse one directory</h3><p>Search and filter openings by company, title, sector, or country — then apply on the company's own site.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HIRING INSIGHTS ===== -->
+<section class="lp-sec insights">
+  <div class="wrap insights-grid">
+    <div class="insight-visual">
+      <div class="insight-card">
+        <div class="insight-head">
+          <span class="insight-logo"><img src="https://cdn.simpleicons.org/stripe/635BFF" alt="Stripe" loading="lazy"></span>
+          <div class="ih-name"><b>Stripe</b><span>Hiring overview · Payments</span></div>
+          <span class="insight-trend">▲ 18% QoQ</span>
+        </div>
+        <div class="insight-metrics">
+          <div><b>48</b><span>open roles</span></div>
+          <div><b>+12</b><span>this quarter</span></div>
+          <div><b>21d</b><span>avg. time open</span></div>
+        </div>
+        <div class="insight-chart">
+          <div class="bars">
+            <span style="height:38%"></span><span style="height:52%"></span><span style="height:44%"></span><span style="height:66%"></span><span style="height:58%"></span><span style="height:78%"></span><span style="height:70%"></span><span style="height:92%"></span>
+          </div>
+          <div class="chart-x">Roles opened · last 8 months</div>
+        </div>
+        <div class="insight-teams">
+          <span class="t-label">Fastest-growing teams</span>
+          <div class="t-chips"><span>Engineering</span><span>Infrastructure</span><span>Sales</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="alerts-copy">
+      <span class="eyebrow">Hiring insights</span>
+      <h2>See how a company hires, not just what's open.</h2>
+      <p class="alerts-sub">Zipline tracks each company's hiring history and trends over time — how actively they're recruiting, which teams are expanding, and how their momentum compares across sectors. The context to decide where to focus.</p>
+      <ul class="alerts-list">
+        <li><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#E9F4EE"/><path d="M7 12.4l3.2 3.2L17 9" stroke="#0B5D3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Hiring velocity and history, quarter over quarter</li>
+        <li><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#E9F4EE"/><path d="M7 12.4l3.2 3.2L17 9" stroke="#0B5D3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Which teams and functions are growing</li>
+        <li><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#E9F4EE"/><path d="M7 12.4l3.2 3.2L17 9" stroke="#0B5D3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Benchmarks across sectors and company stage</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JOB ALERTS ===== -->
+<section class="lp-sec alerts" style="background:var(--bg-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap alerts-grid">
+    <div class="alerts-copy">
+      <span class="eyebrow">Job alerts</span>
+      <h2>Know the moment a company starts hiring.</h2>
+      <p class="alerts-sub">Follow the companies that matter to you and Zipline notifies you when a new role appears on their career page — frequently before it's listed anywhere else.</p>
+      <ul class="alerts-list">
+        <li><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#E9F4EE"/><path d="M7 12.4l3.2 3.2L17 9" stroke="#0B5D3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Notifications as soon as a role is published</li>
+        <li><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#E9F4EE"/><path d="M7 12.4l3.2 3.2L17 9" stroke="#0B5D3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Only the companies you choose to follow</li>
+        <li><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#E9F4EE"/><path d="M7 12.4l3.2 3.2L17 9" stroke="#0B5D3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> One clean digest, daily or weekly</li>
+      </ul>
+      <a href="#join" class="btn btn-primary btn-lg">Get job alerts</a>
+    </div>
+    <div class="alerts-visual">
+      <div class="notif"><span class="notif-logo"><img src="https://cdn.simpleicons.org/linear/5E6AD2" alt="Linear" loading="lazy"></span><div class="notif-body"><div class="notif-top"><b>New role at Linear</b><span class="notif-time">2m ago</span></div><div class="notif-role">Senior Product Designer</div><div class="notif-meta">Remote · Design</div></div><span class="notif-dot"></span></div>
+      <div class="notif"><span class="notif-logo"><img src="https://cdn.simpleicons.org/notion/000000" alt="Notion" loading="lazy"></span><div class="notif-body"><div class="notif-top"><b>New role at Notion</b><span class="notif-time">14m ago</span></div><div class="notif-role">Staff Software Engineer</div><div class="notif-meta">New York · Engineering</div></div><span class="notif-dot"></span></div>
+      <div class="notif"><span class="notif-logo"><img src="https://cdn.simpleicons.org/stripe/635BFF" alt="Stripe" loading="lazy"></span><div class="notif-body"><div class="notif-top"><b>New role at Stripe</b><span class="notif-time">1h ago</span></div><div class="notif-role">Product Manager, Payments</div><div class="notif-meta">Remote · Product</div></div><span class="notif-dot"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="cta-band">
+  <div class="wrap cta-inner">
+    <span class="eyebrow">Early access</span>
+    <h2>Request early access.</h2>
+    <p>Leave your email and we'll be in touch when Zipline opens.</p>
+    <div class="wl" id="wl2">
+      <form class="wl-card" id="wl2-form">
+        <div class="wl-field">
+          <label for="wl2-email">Your email</label>
+          <input class="wl-email" type="email" id="wl2-email" placeholder="you@work.com" required aria-label="Email address">
+        </div>
+        <div class="wl-field">
+          <label>Companies you’d like to follow <span class="opt">(optional)</span></label>
+            <p class="wl-hint">We’ll track them and email you the moment they post a new role.</p>
+          <div class="suggest-rows">
+            <div class="srow solo">
+              <input class="inp-co" type="text" placeholder="Company name" aria-label="Company name">
+              <div class="url-wrap"><span class="url-pfx">https://</span><input class="inp-url" type="text" placeholder="careers page link" aria-label="Career page URL"></div>
+              <button type="button" class="srow-x" aria-label="Remove">✕</button>
+            </div>
+          </div>
+          <button type="button" class="add-co">+ Add another company</button>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg wl-submit">Join the waitlist</button>
+      </form>
+      <p class="note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 8l8 5 8-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/></svg> We'll only email you about early access — nothing else.</p>
+      <div class="wl-ok">
+        <div class="wl-ok-top">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l3.5 3.5L19 7" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>You're on the list</h3>
+        </div>
+        <p>We'll email <b class="wl-email-shown">you</b> when early access opens.</p>
+        <div class="wl-cos" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER (slim) ===== -->
+<footer class="lp-footer">
+  <div class="wrap lp-footer-inner">
+    <a href="index.html" class="logo">
+      <span class="mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6.5 6 H17.5" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/><path d="M17.2 6.5 L6.8 17.5" stroke="#5BE59B" stroke-width="2.1" stroke-linecap="round"/><path d="M6.5 18 H17.5" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/><circle cx="6.5" cy="6" r="2.3" fill="#fff"/><circle cx="17.5" cy="6" r="2.3" fill="#fff"/><circle cx="6.5" cy="18" r="2.3" fill="#fff"/><circle cx="17.5" cy="18" r="2.3" fill="#fff"/><circle cx="12" cy="12" r="2.3" fill="#5BE59B"/>
+        </svg>
+      </span>
+      <span class="word"><b>Zipline</b>&nbsp;<span>Jobs</span></span>
+    </a>
+    <div class="links">
+      <a href="directory.html">Directory</a>
+      <a href="submit.html">Submit a company</a>
+      <a href="#why">Why Zipline</a>
+      <a href="#how">How it works</a>
+    </div>
+    <span class="copy">© 2026 Zipline Jobs</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  function makeRow() {
+    var d = document.createElement('div');
+    d.className = 'srow';
+    d.innerHTML =
+      '<input class="inp-co" type="text" placeholder="Company name" aria-label="Company name">' +
+      '<div class="url-wrap"><span class="url-pfx">https://</span><input class="inp-url" type="text" placeholder="careers page link" aria-label="Career page URL"></div>' +
+      '<button type="button" class="srow-x" aria-label="Remove">\u2715</button>';
+    return d;
+  }
+  function host(u) {
+    return u.replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0] || u;
+  }
+  function esc(s) { return s.replace(/[<>&]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]; }); }
+
+  document.querySelectorAll('.wl').forEach(function (wrap) {
+    var form = wrap.querySelector('form');
+    if (!form) return;
+    var rowsBox = wrap.querySelector('.suggest-rows');
+    var addBtn = wrap.querySelector('.add-co');
+    var toggle = wrap.querySelector('.suggest-toggle');
+    var body = wrap.querySelector('.suggest-body');
+
+    function refreshSolo() {
+      if (!rowsBox) return;
+      var rows = rowsBox.querySelectorAll('.srow');
+      rows.forEach(function (r) { r.classList.toggle('solo', rows.length === 1); });
+    }
+
+    if (toggle && body) {
+      toggle.addEventListener('click', function () {
+        var open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        body.hidden = open;
+        if (!open) { var fi = body.querySelector('.inp-co'); if (fi) fi.focus(); }
+      });
+    }
+    if (addBtn && rowsBox) {
+      addBtn.addEventListener('click', function () {
+        rowsBox.appendChild(makeRow());
+        refreshSolo();
+        var inputs = rowsBox.querySelectorAll('.inp-co');
+        inputs[inputs.length - 1].focus();
+      });
+      rowsBox.addEventListener('click', function (e) {
+        var x = e.target.closest('.srow-x');
+        if (!x) return;
+        var row = x.closest('.srow');
+        var rows = rowsBox.querySelectorAll('.srow');
+        if (rows.length <= 1) { row.querySelector('.inp-co').value = ''; row.querySelector('.inp-url').value = ''; return; }
+        row.remove();
+        refreshSolo();
+      });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var emailEl = form.querySelector('input[type=email]');
+      var email = emailEl ? emailEl.value.trim() : '';
+      if (!email) return;
+
+      var cos = [];
+      wrap.querySelectorAll('.srow').forEach(function (r) {
+        var name = r.querySelector('.inp-co').value.trim();
+        var url = r.querySelector('.inp-url').value.trim();
+        if (name || url) cos.push({ name: name, url: url });
+      });
+
+      wrap.querySelectorAll('.wl-email-shown').forEach(function (n) { n.textContent = email; });
+
+      var box = wrap.querySelector('.wl-cos');
+      if (box) {
+        if (cos.length) {
+          var chips = cos.map(function (c) {
+            return '<span class="cochip"><span class="cd"></span>' + esc(c.name || host(c.url)) + '</span>';
+          }).join('');
+          box.innerHTML = '<span class="cos-label">We\u2019ll add the ' + cos.length +
+            ' compan' + (cos.length === 1 ? 'y' : 'ies') + ' you listed to our tracking queue:</span>' +
+            '<span class="cos-chips">' + chips + '</span>';
+          box.hidden = false;
+        } else {
+          box.hidden = true;
+        }
+      }
+      wrap.classList.add('done');
+    });
+  });
+})();
+</script>
+</body>
+</html>
