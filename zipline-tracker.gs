@@ -3,7 +3,7 @@
 // Deploy as Web App: Execute as Me | Who has access: Anyone
 // Replace the two old .gs files with this one endpoint.
 
-var NOTIFY_EMAIL = 'joonyjx@gmail.com';
+var NOTIFY_EMAIL = 'jxspam17@gmail.com';
 
 function doPost(e) {
   try {
