@@ -1,0 +1,19 @@
+# Zipline Jobs
+
+Zipline Jobs is a job directory that aggregates open roles directly from company career pages, not from job boards or third-party aggregators.
+
+## What Zipline does
+- Monitors the official career pages of companies of every size, from startups to enterprises
+- Supports all major ATS providers (Greenhouse, Lever, Ashby, Workday, etc.) and custom career pages
+- Refreshes listings daily and links directly back to the original source
+- Currently tracking 180+ companies across 20+ sectors
+
+## Who it is for
+Job seekers who want to find roles before they appear on LinkedIn or Indeed, and who prefer applying directly through company portals.
+
+## Status
+Zipline Jobs is currently in private beta. A waitlist is open at https://ziplinejobs.com.
+
+## Pages
+- https://ziplinejobs.com/ — Waitlist landing page
+- https://ziplinejobs.com/submit.html — Submit a company to be tracked
