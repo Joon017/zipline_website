@@ -189,11 +189,8 @@ a { color: inherit; text-decoration: none; }
 .logo .mark {
   width: 34px; height: 34px;
   flex: none;
-  border-radius: 9px;
-  background: linear-gradient(150deg, var(--pine-mid), var(--pine-darker));
   display: grid;
   place-items: center;
-  box-shadow: var(--sh-sm);
 }
 .logo .word b { font-weight: 600; }
 .logo .word span { color: var(--pine); font-weight: 600; }
