@@ -115,7 +115,15 @@ function handleSubmission(p) {
 
 // ── Helpers ──────────────────────────────────────────────────────
 function logToSheet(sheetName, rowData) {
-  var ss    = SpreadsheetApp.getActiveSpreadsheet();
+  var ss;
+  try {
+    ss = SpreadsheetApp.getActiveSpreadsheet();
+  } catch (e) {
+    var files = DriveApp.getFilesByName('Zipline Tracker');
+    ss = files.hasNext()
+      ? SpreadsheetApp.open(files.next())
+      : SpreadsheetApp.create('Zipline Tracker');
+  }
   var sheet = ss.getSheetByName(sheetName) || ss.insertSheet(sheetName);
   sheet.appendRow(rowData);
 }
